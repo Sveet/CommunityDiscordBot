@@ -24,8 +24,6 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: josephfortman/communitydiscordbot
-          tag-with-ref: 'latest'
-          tag-with-sha: true
 
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
@@ -39,11 +37,11 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: '${{secrets.GCP_SA_KEY}}'
+          credentials_json: '${{secrets.GCE_SA_KEY}}'
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
 
       - name: SSH and deploy to Compute Engine
         run: |
-          gcloud compute instances update-container --container-image=josephfortman/communitydiscordbot:latest ${{secrets.GCE_INSTANCE_NAME}}
+          gcloud compute instances update-container --container-image=josephfortman/communitydiscordbot:main ${{secrets.GCE_INSTANCE_NAME}}
