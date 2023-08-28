@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Update Google Cloud VM
+    name: Deploy Bot to Google Cloud VM
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
