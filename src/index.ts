@@ -6,7 +6,8 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.once('ready', (c) => {
   console.log(`Discord Client Ready. ${c.application.name}`);
 });
-
-client.login(process.env.DISCORD_TOKEN);
+const token = process.env.DISCORD_TOKEN
+console.log(`token length: ${token.length}`)
+client.login(token);
 
 export default client;
