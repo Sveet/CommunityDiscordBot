@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "preinstall": "git config core.hooksPath .hooks",
+    "prepare": "git config core.hooksPath .hooks fi",
     "test": "jest",
     "build": "npx tsc",
     "prestart": "npm run build",
