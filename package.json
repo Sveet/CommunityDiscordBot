@@ -6,7 +6,6 @@
   "scripts": {
     "test": "jest",
     "build": "npx tsc",
-    "prestart": "npm run build",
     "start": "node .",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" ",
     "lint.fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
