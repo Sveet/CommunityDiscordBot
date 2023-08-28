@@ -1,4 +1,4 @@
-name: Update Docker Image on GCE
+name: Deploy Bot to Google Cloud VM
 
 on:
   push:
