@@ -44,4 +44,4 @@ jobs:
 
       - name: SSH and deploy to Compute Engine
         run: |
-          gcloud compute instances update-container --container-image=josephfortman/communitydiscordbot:main ${{secrets.GCE_INSTANCE_NAME}}
+          gcloud compute instances update-container --container-image=josephfortman/communitydiscordbot:main --container-command='npm start' --container-env=DISCORD_TOKEN=${{secrets.DISCORD_TOKEN}} --zone us-east1-b ${{secrets.GCE_INSTANCE_NAME}}

@@ -7,6 +7,6 @@ client.once('ready', (c) => {
   console.log(`Discord Client Ready. ${c.application.name}`);
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.DISCORD_TOKEN);
 
 export default client;
