@@ -2,10 +2,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 import messageEvents from './messages'
 import { Client, Events, GatewayIntentBits, Message } from 'discord.js';
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers] });
 
 client.once('ready', (c) => {
-  console.log(`Discord Client Ready. ${c.user.username}`);
+  console.log(`Discord Client Ready. ${c.user.tag}`);
 });
 
 client.on(Events.MessageCreate, async (message: Message)=>{
