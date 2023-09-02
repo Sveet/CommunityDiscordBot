@@ -25,14 +25,15 @@ jobs:
         with:
           images: josephfortman/communitydiscordbot
           tags: |
-            type=raw,value={{sha}}
+            type=sha
+            type=raw,value=latest
 
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           context: .
           file: ./Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
@@ -50,4 +51,4 @@ jobs:
 
       - name: Deploy to Google Compute Engine
         run: |
-          gcloud compute instances update-container --container-image=josephfortman/communitydiscordbot:${{sha}} --container-env='DISCORD_TOKEN=${{secrets.DISCORD_TOKEN}}' --zone us-east1-b ${{secrets.GCE_INSTANCE_NAME}}
+          gcloud compute instances update-container --container-image=josephfortman/communitydiscordbot:${{fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version']}} --container-env='DISCORD_TOKEN=${{secrets.DISCORD_TOKEN}}' --zone us-east1-b ${{secrets.GCE_INSTANCE_NAME}}
