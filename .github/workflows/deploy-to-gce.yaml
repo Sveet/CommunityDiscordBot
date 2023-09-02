@@ -44,6 +44,10 @@ jobs:
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
 
-      - name: SSH and deploy to Compute Engine
+      - name: Prune GCloud Images
+        run: |
+          gcloud compute ssh ${{secrets.GCE_INSTANCE_NAME}} --zone us-east1-b --command 'docker system prune -f -a'
+
+      - name: Deploy to Google Compute Engine
         run: |
           gcloud compute instances update-container --container-image=josephfortman/communitydiscordbot:{{sha}} --container-env='DISCORD_TOKEN=${{secrets.DISCORD_TOKEN}}' --zone us-east1-b ${{secrets.GCE_INSTANCE_NAME}}
