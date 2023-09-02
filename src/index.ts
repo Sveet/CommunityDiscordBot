@@ -1,13 +1,30 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { Client, GatewayIntentBits } from 'discord.js';
+import messageEvents from './messages'
+import { Client, GatewayIntentBits, Message } from 'discord.js';
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.once('ready', (c) => {
   console.log(`Discord Client Ready. ${c.application.name}`);
 });
+
+client.on('message', async (message: Message)=>{
+  if(message.author.bot) return;
+  console.log(`message received in #${message.channelId}: ${message.author.displayName} "${message.content}"`);
+  
+  for(const me of messageEvents){
+    if(me.match(message)){
+      try{
+        await me.action(message);
+      }
+      catch(err){
+        console.error('Action threw an error: ', err);
+      }
+    }
+  }
+})
+
 const token = process.env.DISCORD_TOKEN;
-console.log(`token length: ${token.length}`);
 client.login(token);
 
 export default client;
