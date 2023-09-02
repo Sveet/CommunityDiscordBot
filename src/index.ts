@@ -10,7 +10,7 @@ client.once('ready', (c) => {
 
 client.on(Events.MessageCreate, async (message: Message)=>{
   if(message.author.bot) return;
-  console.log(`Bot has permissions for channel: ${message.channel.type == ChannelType.GuildText ? message.channel.permissionsFor(client.user) : 'idk'}`)
+  console.log(`Bot has permissions for channel: ${message.channel.type == ChannelType.GuildText ? JSON.stringify(message.channel.permissionsFor(client.user)) : 'idk'}`)
   console.log(JSON.stringify(message));
   
   for(const me of messageEvents){
