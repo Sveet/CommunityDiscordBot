@@ -5,9 +5,7 @@ import { Client, Events, GatewayIntentBits, Message } from 'discord.js';
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.once('ready', (c) => {
-  console.log(`Discord Client Ready. ${c.application.name}`);
-
-  c.user.setUsername('-_-');
+  console.log(`Discord Client Ready. ${c.user.username}`);
 });
 
 client.on(Events.MessageCreate, async (message: Message)=>{
