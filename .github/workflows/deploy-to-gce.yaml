@@ -14,23 +14,25 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Log in to Docker Hub
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        uses: docker/metadata-action@v4
         with:
           images: josephfortman/communitydiscordbot
+          tags: |
+            type=raw,value={{sha}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           context: .
           file: ./Dockerfile
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
@@ -44,4 +46,4 @@ jobs:
 
       - name: SSH and deploy to Compute Engine
         run: |
-          gcloud compute instances update-container --container-image=josephfortman/communitydiscordbot:main --container-env='DISCORD_TOKEN=${{secrets.DISCORD_TOKEN}}' --zone us-east1-b ${{secrets.GCE_INSTANCE_NAME}}
+          gcloud compute instances update-container --container-image=josephfortman/communitydiscordbot:{{sha}} --container-env='DISCORD_TOKEN=${{secrets.DISCORD_TOKEN}}' --zone us-east1-b ${{secrets.GCE_INSTANCE_NAME}}
