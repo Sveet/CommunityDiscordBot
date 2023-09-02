@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import messageEvents from './messages'
 import { ChannelType, Client, Events, GatewayIntentBits, Message } from 'discord.js';
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.MessageContent] });
 
 client.once('ready', (c) => {
   console.log(`Discord Client Ready. ${c.user.tag}`);
