@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import messageEvents from './messages'
-import { Client, Events, GatewayIntentBits, Message } from 'discord.js';
+import { ChannelType, Client, Events, GatewayIntentBits, Message } from 'discord.js';
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers] });
 
 client.once('ready', (c) => {
@@ -10,7 +10,8 @@ client.once('ready', (c) => {
 
 client.on(Events.MessageCreate, async (message: Message)=>{
   if(message.author.bot) return;
-  console.log(`message received in #${message.channelId}: ${message.author.displayName} "${message.content}"`);
+  console.log(`Bot has permissions for channel: ${message.channel.type == ChannelType.GuildText ? message.channel.permissionsFor(client.user) : 'idk'}`)
+  console.log(JSON.stringify(message));
   
   for(const me of messageEvents){
     if(me.match(message)){
