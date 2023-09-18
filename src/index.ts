@@ -16,22 +16,9 @@ client.once('ready', (c) => {
 });
 
 client.on(Events.MessageCreate, async (message: Message) => {
-  if (message.author.bot) return;
-  console.log(
-    `Bot has permissions for channel: ${
-      message.channel.type == ChannelType.GuildText
-        ? message.channel.permissionsFor(client.user).has('ViewChannel')
-        : 'idk'
-    }`,
-  );
-  console.log(
-    `Bot has permissions for history: ${
-      message.channel.type == ChannelType.GuildText
-        ? message.channel.permissionsFor(client.user).has('ReadMessageHistory')
-        : 'idk'
-    }`,
-  );
-  console.log(JSON.stringify(message));
+  if (message.author.bot || message.channel.isDMBased()) return;
+
+  console.log(`[${new Date().toISOString()}] (${message.channel?.name}) ${message.author.displayName}: ${message.content}`)
 
   for (const me of messageEvents) {
     if (me.match(message)) {
